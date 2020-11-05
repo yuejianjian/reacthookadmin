@@ -10,9 +10,10 @@ const service = axios.create(
 
 // 添加请求拦截器
 service.interceptors.request.use(function (config) {
+    console.log(config);
     // 在发送请求之前做些什么
-    config.headers['Tokey'] = getToken()
-    config.headers['UserName'] = getUserName()
+    // config.headers['Tokey'] = getToken()
+    // config.headers['UserName'] = getUserName()
     return config;
   }, function (error) {
     // 对请求错误做些什么
@@ -22,11 +23,10 @@ service.interceptors.request.use(function (config) {
 // 添加响应拦截器
 service.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    
+    //return response;
     let data = response.data;
-    // 业务需求
     if(data.resCode !== 0) {
-        Message.error(data.message);
+        // Message.error(data.message);
         return Promise.reject(data);
     }else{
         return response;
