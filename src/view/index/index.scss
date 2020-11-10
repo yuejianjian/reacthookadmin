@@ -1,0 +1,36 @@
+.layout-wrap{
+    height:100vh;
+    .layout-header{
+        height:75px;
+        z-index: 2;
+        background-color:#fff;
+        @include webkit(box-shadow,0 3px 16px 0 rgba(0,0,0,-1));
+        // -webkit-box-shadow:0 3px 16px 0 rgba(0,0,0,-1);
+    }
+    .layout-main{
+        border:30px solid #f7f7f7;
+        background-color:#fff;
+        padding:30px;
+    }
+    .logo-img{
+        height:75px;
+        width:200px;
+        background-color:#001529;
+        margin-left:-50px;
+        float: left;
+        color:#fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        span{
+            width:150px;
+            height:50px;
+            display: inline-block;
+            background-color:#999;
+            text-align: center;
+        }
+    }
+    
+}

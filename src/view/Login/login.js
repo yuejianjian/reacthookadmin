@@ -1,7 +1,9 @@
 import React from 'react'
 import "../../style/login.scss"
+import {withRouter} from 'react-router-dom'
 
-import { message,Row, Col,Button  } from 'antd'
+import { message,Row, Col  } from 'antd'
+import { setToken } from '../../utils/session'
 
 import {
     LoadingOutlined
@@ -36,13 +38,13 @@ class Login extends React.Component{
         this.countDown(60)
         console.log(event);
         const { loginForm,registerForm } = this.state
-        if (!loginForm.username&&event=="login") {
+        if (!loginForm.username&&event==="login") {
             return message.error('用户名不能为空')
-        }else if(!registerForm.username&&event=="register"){
+        }else if(!registerForm.username&&event==="register"){
             return message.error('用户名不能为空')
         }
         let params={
-            username:event=='login'?loginForm.username:registerForm.username,
+            username:event==='login'?loginForm.username:registerForm.username,
             module:event
         }
         this.setState({ 
@@ -168,7 +170,10 @@ class Login extends React.Component{
         }
         this.setState({loading: true})
         login({...loginForm}).then(res =>{
+            const data = res;
+            setToken(data.token);
             message.success(res.data.message);
+            this.props.history.push("./Index")
             console.log(res);
         }).catch(err =>{
             console.log(err);
@@ -247,4 +252,4 @@ class Login extends React.Component{
     }
 }
 
-export default Login;
+export default withRouter(Login);

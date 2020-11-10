@@ -1,6 +1,10 @@
 import React from 'react';
+import {HashRouter ,Switch , Route} from 'react-router-dom'
 import './style/home.scss'
-import { Button } from 'antd';
+import Login from './view/Login/login'
+import index from './view/index/Index'
+//私有化组件
+import PrivateRouter from './components/privateRouter/index'
 class App extends React.Component{
   constructor(props){
     super(props)
@@ -11,11 +15,17 @@ class App extends React.Component{
   
   render(){
     return(
-      <div id="app">
-        <Button type="primary">Primary Button</Button>
-        <p>{this.state.msg}</p>
+      <HashRouter>
+        <Switch>
+          <Route exact render={() =><Login/>} path="/" />
+          <PrivateRouter component={index} path="/index" />
+        </Switch>
+      </HashRouter>  
+      // <div id="app">
+      //   <Button type="primary">Primary Button</Button>
+      //   <p>{this.state.msg}</p>
        
-      </div>
+      // </div>
     )
   }
 }
