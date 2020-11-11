@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 
-import { Link } from 'react-router-dom'
+import { Link,withRouter } from 'react-router-dom'
 import {  Menu } from 'antd';
 import "../../view/index/index.scss"
 import {
@@ -14,8 +14,47 @@ class AsideMneu extends Component{
     super(props)
     console.log(Router)
     this.state={
-      msg:'左侧导航'
+      msg:'左侧导航',
+      selectedKeys:[],
+      openKeys:[],
+      collapsed:props.collapsed
     }
+  }
+  componentDidMount(){
+    console.log(this.props);
+    const pathname = this.props.location.pathname;
+    const menuKey =pathname.split("/").slice(0,3).join("/");
+
+    const menuHigh ={
+      selectedKeys:pathname,
+      openKeys:menuKey
+    }
+    this.selectMenuHigh(menuHigh);
+  }
+  //打开菜单关闭菜单
+  openChangeMenu=(key)=>{
+    console.log(key)
+    this.setState({
+      openKeys:[key[key.length-1]]
+    })
+  }
+  //选择菜单
+  selectMenu =({ item, key, keyPath, domEvent}) =>{
+    console.log(key)
+    console.log(keyPath)
+    const menuHigh ={
+      selectedKeys:key,
+      openKeys:keyPath[keyPath.length-1]
+    }
+    this.selectMenuHigh(menuHigh);
+
+  }
+  // 菜单高光封装
+  selectMenuHigh=({selectedKeys,openKeys})=>{
+    this.setState({
+      selectedKeys:[selectedKeys],
+      openKeys:[openKeys]
+    })
   }
   //无子级菜单处理
   renderMenu=({title ,key}) =>{
@@ -39,13 +78,17 @@ class AsideMneu extends Component{
     )
   }
   render(){
+    const {selectedKeys,openKeys,collapsed} = this.state
     return(
       <Fragment>
           <Menu
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          onOpenChange ={this.openChangeMenu}
+          onClick ={this.selectMenu}
+          selectedKeys={selectedKeys}
+          openKeys={openKeys}
           mode="inline"
           theme="dark"
+         
         >
 
 
@@ -84,4 +127,4 @@ class AsideMneu extends Component{
 }
 
 
-export default AsideMneu;
+export default withRouter(AsideMneu);

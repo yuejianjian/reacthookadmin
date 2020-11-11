@@ -24,17 +24,17 @@ const router=[
     {
         title:'部门管理',
         icon:'bars',
-        key:'/home/navigation',
+        key:'/index/department',
         child:[
             {
                 title:'部门列表',
                 icon:'',
-                key:'/home/navigation/dropdown'
+                key:'/index/department/list'
             },
             {
                 title:'添加部门',
                 icon:'',
-                key:'/home/navigation/menu'
+                key:'/index/department/add'
             }
         ]
     },
