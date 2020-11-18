@@ -2,7 +2,7 @@ const router=[
     {
         title:'控制台',
         icon:'home',
-        key:'/index'
+        key:'/index',
     },
     {
         title:'用户管理',
