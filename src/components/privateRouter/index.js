@@ -1,6 +1,6 @@
 import React from "react"
 import { Redirect, Route } from 'react-router-dom'
-import { getToken } from '../../utils/session'
+import { getToken } from '../../utils/cookies'
 
 const privateRouter =({component:Component, ...rest}) =>{
     return(

@@ -1,5 +1,7 @@
 import axios from "axios";
+import { getToken,getuserName } from './cookies'
 
+import {  message } from 'antd';
 
 const service = axios.create(
     {
@@ -12,8 +14,9 @@ const service = axios.create(
 service.interceptors.request.use(function (config) {
     console.log(config);
     // 在发送请求之前做些什么
-    // config.headers['Tokey'] = getToken()
-    // config.headers['UserName'] = getUserName()
+   //alert(getToken());
+    config.headers['Token'] = getToken();
+    config.headers['Username'] = getuserName();
     return config;
   }, function (error) {
     // 对请求错误做些什么
@@ -27,7 +30,7 @@ service.interceptors.response.use(function (response) {
     //return response;
     let data = response.data;
     if(data.resCode !== 0) {
-        // Message.error(data.message);
+        message.error(data.message);
         return Promise.reject(data);
     }else{
         return response;

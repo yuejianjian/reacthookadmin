@@ -26,3 +26,27 @@ export function register(data){
         data
     })
 }
+//新增部门
+export function DepartmentAddApi(data){
+    return service.request({
+        url:"/department/add/",
+        method:"post",
+        data
+    })
+}
+//获取部门列表
+export function GetDepartmentList(data){
+    return service.request({
+        url:"/department/list/",
+        method:"post",
+        data
+    })
+}
+//删除部门列表
+export function DeleteDepartmentList(data){
+    return service.request({
+        url:"/department/delete/",
+        method:"post",
+        data
+    })
+}

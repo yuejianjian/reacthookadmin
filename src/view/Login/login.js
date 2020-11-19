@@ -3,7 +3,7 @@ import "../../style/login.scss"
 import {withRouter} from 'react-router-dom'
 
 import { message,Row, Col  } from 'antd'
-import { setToken } from '../../utils/session'
+import { setToken,setUserName,getToken } from '../../utils/cookies'
 
 import {
     LoadingOutlined
@@ -170,11 +170,12 @@ class Login extends React.Component{
         }
         this.setState({loading: true})
         login({...loginForm}).then(res =>{
-            const data = res;
-            setToken(data.token);
+            const data = res.data;
+            console.log(data);
+            setToken(data.data.token);
+            setUserName(data.data.username);
             message.success(res.data.message);
             this.props.history.push("./Index")
-            console.log(res);
         }).catch(err =>{
             console.log(err);
         })
