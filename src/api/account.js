@@ -50,3 +50,27 @@ export function DeleteDepartmentList(data){
         data
     })
 }
+//禁启用部门列表
+export function StatusDepartmentList(data){
+    return service.request({
+        url:"/department/status/",
+        method:"post",
+        data
+    })
+}
+//获取部门信息详情
+export function GetDepartDetails(data){
+    return service.request({
+        url:"/department/detailed/",
+        method:"post",
+        data
+    })
+}
+//获取部门信息详情
+export function EditDepartDetails(data){
+    return service.request({
+        url:"/department/edit/",
+        method:"post",
+        data
+    })
+}

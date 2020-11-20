@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Form, Input,InputNumber, Button, message, Radio } from 'antd';
-import {DepartmentAddApi} from "../../api/account"
+import {DepartmentAddApi,GetDepartDetails,EditDepartDetails} from "../../api/account"
 class DepartmentAdd extends React.Component{
   constructor(props){
     super(props)
@@ -10,27 +10,101 @@ class DepartmentAdd extends React.Component{
           labelCol:{ span:2 },
           wrapperCol:{ span:22 }
         },
+        id:null,
         loading:false,
     }
+  }
+
+  componentDidMount(){
+    console.log(this.props.location.state);
+     if(this.props.location.state){
+      this.setState({
+        id:this.props.location.state.id
+      })
+      this.getDepartmentDetails(this.props.location.state.id)
+    }
+    // if(!this.props.location.state){
+    //   return false;
+    // }else{
+    //   this.getDepartmentDetails()
+    // }
+    //console.log( this.props.location.state.id);
+  }
+  //获取部门详情
+  getDepartmentDetails=(id)=>{
+    GetDepartDetails({id:id}).then(res =>{
+      const data = res.data.data;
+      this.refs.form.setFieldsValue	({
+        name:data.name,
+        number: data.number,
+        status:data.status,
+        content:data.content,
+
+      });
+  }).catch(err =>{
+      this.setState({
+        loading:false,
+      })
+      message.error(err.message);
+      console.log(err);
+  })
   }
   onSubmit=(value) =>{
     this.setState({
       loading:true,
     })
-      DepartmentAddApi(value).then(res =>{
-          message.success(res.data.message);
-          console.log(res);
-          this.setState({
-            loading:false,
-          })
-          this.refs.form.resetFields();
-      }).catch(err =>{
-          this.setState({
-            loading:false,
-          })
-          message.error(err.message);
-          console.log(err);
-      })
+    this.state.id==null?this.addDepartmentList(value):this.editDepartmentList(value)
+    // DepartmentAddApi(value).then(res =>{
+    //     message.success(res.data.message);
+    //     console.log(res);
+    //     this.setState({
+    //       loading:false,
+    //     })
+    //     this.refs.form.resetFields();
+    // }).catch(err =>{
+    //     this.setState({
+    //       loading:false,
+    //     })
+    //     message.error(err.message);
+    //     console.log(err);
+    // })
+  }
+  //提交
+  addDepartmentList=(value)=>{
+    console.log(value)
+    DepartmentAddApi(value).then(res =>{
+        message.success(res.data.message);
+        console.log(res);
+        this.setState({
+          loading:false,
+        })
+        this.refs.form.resetFields();
+    }).catch(err =>{
+        this.setState({
+          loading:false,
+        })
+        message.error(err.message);
+        console.log(err);
+    })
+  }
+  //修改
+  editDepartmentList=(value)=>{
+    console.log(value)
+    value.id =this.state.id
+    EditDepartDetails(value).then(res =>{
+        message.success(res.data.message);
+        console.log(res);
+        this.setState({
+          loading:false,
+        })
+        this.refs.form.resetFields();
+    }).catch(err =>{
+        this.setState({
+          loading:false,
+        })
+        message.error(err.message);
+        console.log(err);
+    })
   }
   render(){
     return(
@@ -69,7 +143,7 @@ class DepartmentAdd extends React.Component{
             <Input.TextArea />
           </Form.Item>
           <Form.Item>
-            <Button htmlType="submit" type="primary" loading={this.state.loading}>确定</Button>
+            <Button htmlType="submit" type="primary" loading={this.state.loading}>{this.state.id?"修改":"确定"}</Button>
           </Form.Item>
         </Form>
        

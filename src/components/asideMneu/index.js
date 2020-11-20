@@ -4,8 +4,8 @@ import { Link,withRouter } from 'react-router-dom'
 import {  Menu } from 'antd';
 import "../../view/index/index.scss"
 import {
-    MailOutlined,
-  } from '@ant-design/icons'
+    MailOutlined
+} from '@ant-design/icons'
 import Router from '../../routes/index'
 const { SubMenu } = Menu
 
