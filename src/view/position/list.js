@@ -4,7 +4,9 @@ import { Form, Input, Button,Table,message,Switch,Modal,Pagination  } from 'antd
 import { PositionListApi,PositionDeleteApi,PositionStatusApi } from "../../api/account"
 import PropTypes from "prop-types"
 
+
 import TableComponent from "@c/tableData/index"
+import PaginationComponent from "@c/pagination/index"
 
 class PositionList extends React.Component{
   constructor(props){
@@ -232,7 +234,7 @@ class PositionList extends React.Component{
   //   console.log('selectedRowKeys changed: ', selectedRowKeys);
   //   this.setState({ selectedRowKeys });
   // };
-  onChange=(pageNumber) => {
+  onChangePage=(pageNumber) => {
     console.log(pageNumber)
     this.setState({
         pageNumber:pageNumber,
@@ -274,7 +276,8 @@ class PositionList extends React.Component{
 
        </Table> */}
        <Button type="default" onClick={()=>this.DeleteList()} style={{marginTop:'10px',}}>批量删除</Button>
-       <Pagination defaultCurrent={1}  defaultPageSize={5} total={totals} onChange={this.onChange} style={{float:'right',marginTop:'10px'}}/>
+       <PaginationComponent total={totals} onChangePage={this.onChangePage} />
+       {/* <Pagination defaultCurrent={1}  defaultPageSize={5} total={totals} onChange={this.onChange} style={{float:'right',marginTop:'10px'}}/> */}
        <Modal
           title="提示"
           visible={this.state.visible}
