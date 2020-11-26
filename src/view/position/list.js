@@ -262,8 +262,8 @@ class PositionList extends React.Component{
                 <Button type="primary" htmlType="submit">搜索</Button>
             </Form.Item>
         </Form>
-        <TableComponent columns={columns} datalist={data} rowSelection={rowSelection} /> 
-       {/* <Table
+        {/* <TableComponent columns={columns} datalist={data} rowSelection={rowSelection} />  */}
+       <Table
         rowSelection={rowSelection}
         style={{marginTop:'20px'}}
         rowKey="id"
@@ -274,7 +274,7 @@ class PositionList extends React.Component{
         pagination={ false }
        >
 
-       </Table> */}
+       </Table>
        <Button type="default" onClick={()=>this.DeleteList()} style={{marginTop:'10px',}}>批量删除</Button>
        <PaginationComponent total={totals} onChangePage={this.onChangePage} />
        {/* <Pagination defaultCurrent={1}  defaultPageSize={5} total={totals} onChange={this.onChange} style={{float:'right',marginTop:'10px'}}/> */}

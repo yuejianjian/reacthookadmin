@@ -17,12 +17,14 @@ import { createStore,applyMiddleware ,compose,combineReducers} from 'redux';
 import departmentReducer from './reducer/department'
 import JobReducer from './reducer/job'
 import configReducer from './reducer/config'
+import todolistReducer from './reducer/todolist'
 
 //创建reducer对象
 const allReducer ={
   department:departmentReducer,
   job:JobReducer,
-  config:configReducer
+  config:configReducer,
+  todolist:todolistReducer
 }
 const rootReducer = combineReducers(allReducer)
 const store = createStore(rootReducer);
