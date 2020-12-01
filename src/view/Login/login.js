@@ -175,7 +175,7 @@ class Login extends React.Component{
             setToken(data.data.token);
             setUserName(data.data.username);
             message.success(res.data.message);
-            this.props.history.push("./Index")
+            this.props.history.push("./Index/home/home")
         }).catch(err =>{
             console.log(err);
         })
@@ -192,7 +192,7 @@ class Login extends React.Component{
         clearInterval(this.timer);
       }
     render(){
-        const { loginType, registerForm, loginForm,loading,codeButtonStatus } = this.state
+        const { loginType, registerForm, loginForm,loading,codeButtonStatus } = this.state;
         const activeClass = !loginType ? 'right-panel-active' : ''
         return(
             <div className="login-wrapper">

@@ -7,7 +7,7 @@ class Home extends React.Component{
   constructor(props){
     super(props)
     this.state = store.getState().todolist;
-    // this.state={
+    // this.state={   
     //   list:[],
     // }
     this.handleStoreChange = this.handleStoreChange.bind(this);
@@ -108,7 +108,6 @@ class Home extends React.Component{
           )
         }
       },
-      
     ]
     return(
       <div >

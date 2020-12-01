@@ -55,11 +55,7 @@ const router=[
             }
         ]
     },
-    {
-        title:'请假',
-        icon:'info-circle-o',
-        key:'/home/about'
-    },
+    
 ]
 
 export default router; 
