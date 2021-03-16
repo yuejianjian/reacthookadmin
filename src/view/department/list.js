@@ -21,6 +21,7 @@ class DepartmentList extends React.Component{
       tableloading:false,
       statusid:"",
       totals :0,
+      selectarr:[3536,3535],
       columns:[
         {
           title:"部门名称",
@@ -154,14 +155,13 @@ class DepartmentList extends React.Component{
         tableloading:true,
       })
       GetDepartmentList(params).then(res =>{
-
-        //message.success(res.data.message);
         console.log(res);
         if(res.data.data.data){
           this.setState({
             data:res.data.data.data,
             totals:res.data.data.total,
-            tableloading:false
+            tableloading:false,
+            //selectedRowKeys:arr
           })
         }
       
@@ -188,10 +188,7 @@ class DepartmentList extends React.Component{
       selectedRowKeys:value
     });
   }
-  // onSelectChange = selectedRowKeys => {
-  //   console.log('selectedRowKeys changed: ', selectedRowKeys);
-  //   this.setState({ selectedRowKeys });
-  // };
+
   onChangePage=(pageNumber) => {
     console.log(pageNumber)
     this.setState({
@@ -202,11 +199,22 @@ class DepartmentList extends React.Component{
         
   }
   render(){
-    const { columns,data,selectedRowKeys,tableloading } = this.state;
+    const { columns,data,selectedRowKeys,tableloading,selectarr } = this.state;
     const totals =this.state.totals?this.state.totals:5;
+    console.log(selectedRowKeys);
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
+      preserveSelectedRowKeys:true,
+      getCheckboxProps(record){
+        console.log(selectedRowKeys.includes(Number(record.id)));
+        return{
+          props: {
+            defaultChecked:selectedRowKeys.includes(Number(record.id))
+          }
+        }
+      }
+      
     }
     return(
       <Fragment >
@@ -222,7 +230,7 @@ class DepartmentList extends React.Component{
        <Table
         rowSelection={rowSelection}
         style={{marginTop:'20px'}}
-        rowKey="id"
+        rowKey='id'
         columns={columns}
         dataSource={data}
         bordered

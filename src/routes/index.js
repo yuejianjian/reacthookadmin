@@ -55,6 +55,18 @@ const router=[
             }
         ]
     },
+    {
+        title:'Hooks测试',
+        icon:'edit',
+        key:'/index/test',
+        child:[
+            {
+                title:'测试页面',
+                icon:'',
+                key:'/index/test/hooks'
+            },
+        ]
+    },
     
 ]
 

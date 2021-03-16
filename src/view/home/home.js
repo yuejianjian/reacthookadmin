@@ -7,9 +7,9 @@ class Home extends React.Component{
   constructor(props){
     super(props)
     this.state = store.getState().todolist;
-    // this.state={   
-    //   list:[],
-    // }
+    this.state={   
+      value:'',
+    }
     this.handleStoreChange = this.handleStoreChange.bind(this);
     store.subscribe(this.handleStoreChange)
   }
@@ -53,6 +53,9 @@ class Home extends React.Component{
     }
     store.dispatch(action)
     //store.getState()
+    this.setState({
+      value:""
+    })
     console.log(store.getState());
   }
   onChange=({ target: { value } })=>{
@@ -62,6 +65,9 @@ class Home extends React.Component{
         value:value
     }
     store.dispatch(action);
+    this.setState({
+      value:value
+    })
     console.log(this.state.dataSource);
   }
   render(){
@@ -75,11 +81,11 @@ class Home extends React.Component{
         title: '操作',
         dataIndex: 'operation',
         align:"center",
-        key: 'operation',
+        key: 'name',
         render:(text,rowData,index)=>{
           return (
-            <div>
-              <Button type="primary" style={{marginRight:'10px'}} onClick={() => this.finishList(rowData,index)}>
+            <div key={index}>
+              <Button type="primary"  style={{marginRight:'10px'}} onClick={() => this.finishList(rowData,index)}>
                 完成
               </Button>
               <Button type="default" onClick={() => this.DeleteList(rowData,index)}>删除</Button>
@@ -102,7 +108,7 @@ class Home extends React.Component{
         key: 'operation',
         render:(text,rowData,index)=>{
           return (
-            <div>
+            <div key={index}>
               <Button type="default" onClick={() => this.DeleteListTwo(rowData,index)}>删除</Button>
             </div>
           )
@@ -113,7 +119,7 @@ class Home extends React.Component{
       <div >
          <Row>
             <Col span={18}>
-              <Input placeholder="想做点什么" onChange={this.onChange} prefix={<PlusOutlined style={{color:'#BFBFBF'}} />}/>
+              <Input placeholder="想做点什么" value={this.state.value} onChange={this.onChange} prefix={<PlusOutlined style={{color:'#BFBFBF'}} />}/>
             </Col>
             <Col span={2} offset={2}>
               <Button type="primary" onClick={()=>this.handleBtnCLick()}>新增</Button>
