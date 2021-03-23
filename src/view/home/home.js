@@ -5,7 +5,7 @@ class Home extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      msg:'内容怒1111放'
+      msg:'内容怒1122211放'
     }
   }
   
