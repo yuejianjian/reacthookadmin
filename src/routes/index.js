@@ -2,7 +2,7 @@ const router=[
     {
         title:'控制台',
         icon:'home',
-        key:'/index',
+        key:'/index/home/home',
     },
     {
         title:'用户管理',
@@ -41,25 +41,33 @@ const router=[
     {
         title:'职位管理',
         icon:'edit',
-        key:'/hone/entry',
+        key:'/index/position',
         child:[
             {
                 title:'职位列表',
                 icon:'',
-                key:'/home/entry/basic'
+                key:'/index/position/list'
             },
             {
                 title:'添加职位',
                 icon:'',
-                key:'/home/entry/step'
+                key:'/index/position/add'
             }
         ]
     },
     {
-        title:'请假',
-        icon:'info-circle-o',
-        key:'/home/about'
+        title:'Hooks测试',
+        icon:'edit',
+        key:'/index/test',
+        child:[
+            {
+                title:'测试页面',
+                icon:'',
+                key:'/index/test/hooks'
+            },
+        ]
     },
+    
 ]
 
 export default router; 

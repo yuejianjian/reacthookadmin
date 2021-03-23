@@ -1,75 +1,87 @@
-import React from 'react';
+import React, { useState , useEffect } from 'react';
+import { Bar } from '@ant-design/charts';
 
-import { Form, Input,InputNumber, Button, message, Radio } from 'antd';
-import {DepartmentAddApi} from "../../api/account"
-import { getToken,getuserName } from "../../utils/cookies"
+
 class AddUser extends React.Component{
   constructor(props){
     super(props)
     this.state={
-        formLayout:{
-          labelCol:{ span:2 },
-          wrapperCol:{ span:22 }
-        },
-        loading:false,
+        
     }
   }
-  onSubmit=(value) =>{
-    this.setState({
-      loading:true,
-    })
-      DepartmentAddApi(value).then(res =>{
-          message.success(res.data.message);
-          console.log(res);
-          this.setState({
-            loading:false,
-          })
-          this.refs.form.resetFields();
-      }).catch(err =>{
-        message.error(err.message);
-          console.log(err);
-      })
-  }
+
   render(){
+    var data = [
+      {
+        label: 'Mon.',
+        type: 'series1',
+        value: 2800,
+      },
+      {
+        label: 'Mon.',
+        type: 'series2',
+        value: 2260,
+      },
+      {
+        label: 'Tues.',
+        type: 'series1',
+        value: 1800,
+      },
+      {
+        label: 'Tues.',
+        type: 'series2',
+        value: 1300,
+      },
+      {
+        label: 'Wed.',
+        type: 'series1',
+        value: 950,
+      },
+      {
+        label: 'Wed.',
+        type: 'series2',
+        value: 900,
+      },
+      {
+        label: 'Thur.',
+        type: 'series1',
+        value: 500,
+      },
+      {
+        label: 'Thur.',
+        type: 'series2',
+        value: 390,
+      },
+      {
+        label: 'Fri.',
+        type: 'series1',
+        value: 170,
+      },
+      {
+        label: 'Fri.',
+        type: 'series2',
+        value: 100,
+      },
+    ];
+    var config = {
+      data: data,
+      isGroup: true,
+      xField: 'value',
+      yField: 'label',
+      seriesField: 'type',
+      marginRatio: 0,
+      label: {
+        position: 'middle',
+        layout: [
+          { type: 'interval-adjust-position' },
+          { type: 'interval-hide-overlap' },
+          { type: 'adjust-color' },
+        ],
+      },
+    };
     return(
       <div >
-        <Form 
-        ref="form"
-        onFinish={this.onSubmit} 
-        labelCol={this.state.formLayout.labelCol} 
-        wrapperCol={this.state.formLayout.wrapperCol}
-        initialValues={{
-          number: 1,
-          status:true
-        }}
-        >
-          <Form.Item 
-          label="部门名称"
-          name="name"
-          rules={[{ required: true, message: '部门名称不能为空!' }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="人员数量" name="number">
-            <InputNumber min={0} max={100}  />
-          </Form.Item>
-          <Form.Item label="禁启用" name="status">
-            <Radio.Group  >
-              <Radio value={false}>禁用</Radio>
-              <Radio value={true}>启用</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item 
-          label="描述" 
-          name="content"
-          rules={[{ required: true, message: '描述不能为空!' }]}
-          >
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item>
-            <Button htmlType="submit" type="primary" loading={this.state.loading}>确定</Button>
-          </Form.Item>
-        </Form>
+        <Bar {...config} />
        
       </div>
     )

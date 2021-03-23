@@ -8,6 +8,7 @@ import { Switch } from 'react-router-dom'
 
 import PrivateRouter from '../privateRouter/index'
 import components from "./components"
+console.log(components);
 class ContainerMain extends React.Component{
   constructor(props){
     super(props)

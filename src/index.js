@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 //import Login from './view/Login/login'
 import reportWebVitals from './reportWebVitals';
+import  store from './store/index'
+console.log(store.getState());
 
 
 ReactDOM.render(

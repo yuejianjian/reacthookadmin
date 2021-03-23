@@ -45,7 +45,8 @@
         -ms-transition:all 0.2s ease 0s;
         -o-transition:all 0.2s ease 0s;
         transition:all 0.2s ease 0s;
-        margin-left:170px;
+        margin-left:20px;
+        float: left;
         .collapsed-icon{
             font-size: 23px;
             cursor: pointer;
@@ -59,8 +60,11 @@
             }
         }
         .header-wrap{
-            margin-left:65px;
+            margin-left:30px;
         }
+    }
+    .header-right{
+        float: right;
     }
 
 }

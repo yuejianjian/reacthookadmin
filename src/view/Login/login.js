@@ -18,8 +18,8 @@ class Login extends React.Component{
             loginType: true,
             loading: false,
             loginForm: {
-                username: '',
-                password: '',
+                username: '929915906@qq.com',
+                password: '123456',
                 code:''
             },
             registerForm: {
@@ -175,7 +175,7 @@ class Login extends React.Component{
             setToken(data.data.token);
             setUserName(data.data.username);
             message.success(res.data.message);
-            this.props.history.push("./Index")
+            this.props.history.push("./Index/home/home")
         }).catch(err =>{
             console.log(err);
         })
@@ -192,14 +192,14 @@ class Login extends React.Component{
         clearInterval(this.timer);
       }
     render(){
-        const { loginType, registerForm, loginForm,loading,codeButtonStatus } = this.state
+        const { loginType, registerForm, loginForm,loading,codeButtonStatus } = this.state;
         const activeClass = !loginType ? 'right-panel-active' : ''
         return(
             <div className="login-wrapper">
                 <div className={`${activeClass} container`}>
                     <div className="form-container sign-up-container" >
                         <form id="register" onSubmit={this.handleRegister}>
-                            <h1>注册</h1>
+                            <h1>注1册</h1>
                             <input type="text" name="username" defaultValue={registerForm.username}  onChange={(event) => this.handleInputChange(event, 'register', 'username')} placeholder="用户名" />
                             <input type="password" name="password"defaultValue={registerForm.password} onChange={(event) => this.handleInputChange(event, 'register', 'password')} placeholder="密码" />
                             <input type="password" name="password" defaultValue={registerForm.confirmpassword} onChange={(event) => this.handleInputChange(event, 'register', 'confirmpassword')} placeholder="确认密码" />
@@ -216,7 +216,7 @@ class Login extends React.Component{
                     </div>
                     <div className="form-container sign-in-container" >
                         <form id="login" onSubmit={this.handleLogin}>
-                            <h1>登录</h1>
+                            <h1>登2录</h1>
                             <input type="text" defaultValue={loginForm.username} onChange={(event) => this.handleInputChange(event, 'login', 'username')} name="username" placeholder="用户名" />
                             <input type="password" defaultValue={loginForm.password} onChange={(event) => this.handleInputChange(event, 'login', 'password')} name="password" placeholder="密码" />
                             <Row type="flex" justify="center" align="middle">

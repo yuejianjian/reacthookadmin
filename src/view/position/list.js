@@ -1,13 +1,14 @@
 import React,{Fragment} from 'react';
 import { Link  } from 'react-router-dom'
-import { Form, Input, Button,Table,message,Switch,Modal,Pagination } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { GetDepartmentList,DeleteDepartmentList,StatusDepartmentList } from "../../api/account"
+import { Form, Input, Button,Table,message,Switch,Modal,Pagination  } from 'antd';
+import { PositionListApi,PositionDeleteApi,PositionStatusApi } from "../../api/account"
+import PropTypes from "prop-types"
+
 
 import TableComponent from "@c/tableData/index"
 import PaginationComponent from "@c/pagination/index"
 
-class DepartmentList extends React.Component{
+class PositionList extends React.Component{
   constructor(props){
     super(props)
     this.state={
@@ -16,13 +17,19 @@ class DepartmentList extends React.Component{
       keyword:null,
       selectedRowKeys:[],
       visible:false,
-      departmentid:null,
+      positionid:null,
       confirmLoading:false,
       tableloading:false,
       statusid:"",
       totals :0,
-      selectarr:[3536,3535],
+      data:[],
       columns:[
+        {
+            title:"职位名称",
+            dataIndex:"jobName",
+            align:"center",
+            key:"jobName"
+        },
         {
           title:"部门名称",
           dataIndex:"name",
@@ -35,14 +42,8 @@ class DepartmentList extends React.Component{
           key:"status",
           align:"center",
           render:(text,rowData)=>{
-            return <Switch onChange={()=>this.onHandlerSwitch(rowData)} loading={rowData.id==this.state.statusid} checkedChildren="开启" unCheckedChildren="关闭" defaultChecked={rowData.status==="1"?true:false} />
+            return <Switch onChange={()=>this.onHandlerSwitch(rowData)} loading={rowData.id==this.state.statusid} checkedChildren="开启" unCheckedChildren="关闭" defaultChecked={rowData.status} />
           }
-        },
-        {
-          title:"人员数量",
-          dataIndex:"number",
-          align:"center",
-          key:"number"
         },
         {
           title:"操作",
@@ -54,32 +55,73 @@ class DepartmentList extends React.Component{
             return (
               <div>
                 <Button type="primary" style={{marginRight:'10px'}}>
-                  <Link to={{pathname:'/index/department/add',state:{id:rowData.id}}}>
+                  <Link to={{pathname:'/index/position/add',state:{id:rowData.jobId}}}>
                       编辑
                   </Link>
                 </Button>
-                <Button type="default" onClick={() => this.DeleteList(rowData.id)}>删除</Button>
+                <Button type="default" onClick={() => this.DeleteList(rowData.jobId)}>删除</Button>
               </div>
             )
           }
         },
       ],
-      data:[
-        
-      ]
+      configmsg:{
+        columns:[
+            {
+                title:"职位名称",
+                dataIndex:"jobName",
+                align:"center",
+                key:"jobName"
+            },
+            {
+              title:"部门名称",
+              dataIndex:"name",
+              align:"center",
+              key:"name"
+            },
+            {
+              title:"禁启用",
+              dataIndex:"status",
+              key:"status",
+              align:"center",
+              render:(text,rowData)=>{
+                return <Switch onChange={()=>this.onHandlerSwitch(rowData)} loading={rowData.id==this.state.statusid} checkedChildren="开启" unCheckedChildren="关闭" defaultChecked={rowData.status} />
+              }
+            },
+            {
+              title:"操作",
+              dataIndex:"operation",
+              align:"center",
+              key:"name",
+              width:250,
+              render:(text,rowData)=>{
+                return (
+                  <div>
+                    <Button type="primary" style={{marginRight:'10px'}}>
+                      <Link to={{pathname:'/index/position/add',state:{id:rowData.jobId}}}>
+                          编辑
+                      </Link>
+                    </Button>
+                    <Button type="default" onClick={() => this.DeleteList(rowData.jobId)}>删除</Button>
+                  </div>
+                )
+              }
+            },
+        ],
+      },
     }
   }
   //禁启用\切换
   onHandlerSwitch=(value)=>{
     console.log(value.status);
     var params={
-      id:value.id,
-      status:value.status==="1"?false:true
+      id:value.jobId,
+      status:!value.status
     }
     this.setState({
-      statusid:value.id
+      statusid:value.jobId
     })
-    StatusDepartmentList(params).then(res =>{
+    PositionStatusApi(params).then(res =>{
       message.success(res.data.message);
       this.loadData()
       this.setState({
@@ -102,30 +144,30 @@ class DepartmentList extends React.Component{
       var id =this.state.selectedRowKeys.join()
       this.setState({
         visible:true,
-        departmentid:id, 
+        positionid:id, 
       }) 
     }else{
       this.setState({
         visible:true,
-        departmentid:id, 
+        positionid:id, 
       }) 
     }
     
   }
   handleOk =()=>{
-    if(!this.state.departmentid){
+    if(!this.state.positionid){
       return false;
     }else{
       this.setState({
         confirmLoading:true,
       })
-      DeleteDepartmentList({id:this.state.departmentid}).then(res =>{
+      PositionDeleteApi({id:this.state.positionid}).then(res =>{
         console.log(res);
         message.success(res.data.message);
         this.loadData()
         this.setState({
           confirmLoading:false,
-          departmentid:null,
+          positionid:null,
           visible:false,
           selectedRowKeys:[]
         })  
@@ -154,14 +196,14 @@ class DepartmentList extends React.Component{
       this.setState({
         tableloading:true,
       })
-      GetDepartmentList(params).then(res =>{
-        console.log(res);
+      PositionListApi(params).then(res =>{
+
+        //message.success(res.data.message);
         if(res.data.data.data){
           this.setState({
             data:res.data.data.data,
             totals:res.data.data.total,
-            tableloading:false,
-            //selectedRowKeys:arr
+            tableloading:false
           })
         }
       
@@ -188,7 +230,10 @@ class DepartmentList extends React.Component{
       selectedRowKeys:value
     });
   }
-
+  // onSelectChange = selectedRowKeys => {
+  //   console.log('selectedRowKeys changed: ', selectedRowKeys);
+  //   this.setState({ selectedRowKeys });
+  // };
   onChangePage=(pageNumber) => {
     console.log(pageNumber)
     this.setState({
@@ -199,22 +244,13 @@ class DepartmentList extends React.Component{
         
   }
   render(){
-    const { columns,data,selectedRowKeys,tableloading,selectarr } = this.state;
+    const { columns,data,selectedRowKeys,tableloading,configmsg } = this.state;
     const totals =this.state.totals?this.state.totals:5;
-    console.log(selectedRowKeys);
+    // console.log(totals);
+   //alert(totals);react
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
-      preserveSelectedRowKeys:true,
-      getCheckboxProps(record){
-        console.log(selectedRowKeys.includes(Number(record.id)));
-        return{
-          props: {
-            defaultChecked:selectedRowKeys.includes(Number(record.id))
-          }
-        }
-      }
-      
     }
     return(
       <Fragment >
@@ -226,17 +262,17 @@ class DepartmentList extends React.Component{
                 <Button type="primary" htmlType="submit">搜索</Button>
             </Form.Item>
         </Form>
-        {/* <TableComponent /> */}
+        {/* <TableComponent columns={columns} datalist={data} rowSelection={rowSelection} />  */}
        <Table
         rowSelection={rowSelection}
         style={{marginTop:'20px'}}
-        rowKey='id'
+        rowKey="id"
         columns={columns}
         dataSource={data}
         bordered
         loading={tableloading}
         pagination={ false }
-      >
+       >
 
        </Table>
        <Button type="default" onClick={()=>this.DeleteList()} style={{marginTop:'10px',}}>批量删除</Button>
@@ -260,4 +296,4 @@ class DepartmentList extends React.Component{
 }
 
 
-export default DepartmentList;
+export default PositionList;
