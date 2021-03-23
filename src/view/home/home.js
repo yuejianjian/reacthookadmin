@@ -7,7 +7,7 @@ class Home extends React.Component{
   constructor(props){
     super(props)
     this.state={
-      msg:'内容怒1122211放'
+      msg:'内容怒放'
     }
     store.dispatch(action);
     this.setState({
